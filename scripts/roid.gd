@@ -1,9 +1,9 @@
 extends Area2D
 
 const SPEED_MIN = 3
-const SPEED_MAX = 20
-const FAST_SPEED_MIN = 100
-const FAST_SPEED_MAX = 150
+const SPEED_MAX = 10
+const FAST_SPEED_MIN = 20
+const FAST_SPEED_MAX = 30
 const SPAWN_COORD_X_LIMIT = 288
 const SPAWN_COORD_Y_LIMIT = 162
 var speed = null
@@ -23,26 +23,25 @@ func _ready() -> void:
 				randf_range(-1 * SPAWN_COORD_X_LIMIT, SPAWN_COORD_X_LIMIT),
 				-1 * SPAWN_COORD_Y_LIMIT
 			)
-			rotation_degrees = randf_range(135, 225)
 		2: #down
 			position = Vector2(
 				randf_range(-1 * SPAWN_COORD_X_LIMIT, SPAWN_COORD_X_LIMIT),
 				SPAWN_COORD_Y_LIMIT
 			)
-			rotation_degrees = randf_range(-45, 45)
 		3: #left
 			position = Vector2(
 				-1 * SPAWN_COORD_X_LIMIT,
 				randf_range(-1 * SPAWN_COORD_Y_LIMIT, SPAWN_COORD_Y_LIMIT)
 			)
-			rotation_degrees = randf_range(45, 135)
 		4: #right
 			position = Vector2(
 				SPAWN_COORD_X_LIMIT,
 				randf_range(-1 * SPAWN_COORD_Y_LIMIT, SPAWN_COORD_Y_LIMIT),
 			)
-			rotation_degrees = randf_range(225, 270)
-	
+	print('pre :', rotation_degrees)
+	look_at(Vector2(0, 0))
+	rotation_degrees += 90
+	rotation_degrees = randf_range(rotation_degrees - 20, rotation_degrees + 20)
 
 func _physics_process(delta: float) -> void:
 	var vector = get_direction_from_rota(rotation_degrees - 90)
