@@ -14,6 +14,8 @@ func _physics_process(delta: float) -> void:
 	
 	position = Vector2(position.x + (vector.x * SPEED * delta), position.y + (vector.y * SPEED * delta))
 
-
 func get_direction_from_rota(angle: float) -> Dictionary:
 	return {'x': cos(deg_to_rad(angle)), 'y': sin(deg_to_rad(angle))}
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()
