@@ -9,6 +9,7 @@ const SPAWN_COORD_Y_LIMIT = 162
 var speed = null
 const ROID = preload("res://scenes/roid.tscn")
 @onready var game: Node2D = $".."
+@onready var timer: Timer = $Timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -54,10 +55,13 @@ func get_direction_from_rota(angle: float) -> Dictionary:
 	return {'x': cos(deg_to_rad(angle)), 'y': sin(deg_to_rad(angle))}
 
 func _on_area_entered(area: Area2D) -> void:
+	$CPUParticles2D.emitting = true
+	timer.start()
 	spawn_roid_children()
 	area.queue_free()
 	game.score += 1
-	queue_free()
+	$Sprite2D.hide()
+	$CollisionShape2D.set_deferred("disabled", true)
 
 func spawn_roid_children() -> void:
 	if (scale.x >= 2):
@@ -84,4 +88,7 @@ func _on_body_entered(body: Node2D) -> void:
 	get_tree().reload_current_scene()
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()
+
+func _on_timer_timeout() -> void:
 	queue_free()
